@@ -1,0 +1,40 @@
+{
+  "validUser": {
+    "cc": "1234567890",
+    "name": "Juan Pérez",
+    "tel": "3001234567",
+    "email": "juan.perez@example.com",
+    "password": "TestPassword123!"
+  },
+  "invalidUsers": {
+    "missingRequiredFields": {
+      "cc": "",
+      "name": "",
+      "tel": "3001234567",
+      "email": "test@example.com",
+      "password": ""
+    },
+    "invalidEmail": {
+      "cc": "1234567890",
+      "name": "Test User",
+      "tel": "3001234567",
+      "email": "invalid-email",
+      "password": "TestPassword123!"
+    },
+    "shortPassword": {
+      "cc": "1234567890",
+      "name": "Test User",
+      "tel": "3001234567",
+      "email": "test@example.com",
+      "password": "123"
+    },
+    "passwordMismatch": {
+      "cc": "1234567890",
+      "name": "Test User",
+      "tel": "3001234567",
+      "email": "test@example.com",
+      "password": "TestPassword123!",
+      "confirmPassword": "DifferentPassword"
+    }
+  }
+}
