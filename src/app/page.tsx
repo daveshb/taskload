@@ -1,7 +1,7 @@
-'use client'
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { loginUser } from '@/services/auth';
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { loginUser } from "@/services/auth";
 import { Button } from "@/components/button/Button";
 
 interface LoginFormData {
@@ -18,8 +18,8 @@ interface LoginErrors {
 export default function Home() {
   const router = useRouter();
   const [formData, setFormData] = useState<LoginFormData>({
-    email: '',
-    pass: ''
+    email: "",
+    pass: "",
   });
   const [errors, setErrors] = useState<LoginErrors>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -29,14 +29,14 @@ export default function Home() {
 
     // Validar email
     if (!formData.email) {
-      newErrors.email = 'El email es requerido';
+      newErrors.email = "El email es requerido";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Email inválido';
+      newErrors.email = "Email inválido";
     }
 
     // Validar contraseña
     if (!formData.pass) {
-      newErrors.pass = 'La contraseña es requerida';
+      newErrors.pass = "La contraseña es requerida";
     }
 
     setErrors(newErrors);
@@ -45,23 +45,23 @@ export default function Home() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
     // Limpiar error del campo cuando el usuario empiece a escribir
     if (errors[name as keyof LoginErrors]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: undefined
+        [name]: undefined,
       }));
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -71,25 +71,28 @@ export default function Home() {
 
     try {
       const response = await loginUser(formData);
-      
+
       if (response.success) {
         // Guardar datos del usuario en localStorage (opcional)
         if (response.data?.user) {
-          localStorage.setItem('user', JSON.stringify(response.data.user));
+          localStorage.setItem("user", JSON.stringify(response.data.user));
         }
-        
+
         // Redirigir al dashboard
-        router.push('/dashboard');
+        router.push("/dashboard");
       }
     } catch (error: unknown) {
-      if (error instanceof Error && 'response' in error) {
-        const axiosError = error as { response?: { data?: { message?: string } } };
+      if (error instanceof Error && "response" in error) {
+        const axiosError = error as {
+          response?: { data?: { message?: string } };
+        };
         setErrors({
-          submit: axiosError.response?.data?.message || 'Error al iniciar sesión'
+          submit:
+            axiosError.response?.data?.message || "Error al iniciar sesión",
         });
       } else {
         setErrors({
-          submit: 'Error al iniciar sesión'
+          submit: "Error al iniciar sesión",
         });
       }
     } finally {
@@ -98,22 +101,67 @@ export default function Home() {
   };
 
   const goToRegister = () => {
-    router.push('/register');
+    router.push("/register");
   };
+
+  const [file, setFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files?.[0];
+    if (!selectedFile) {
+      setFile(null);
+      setPreviewUrl("");
+      return;
+    }
+    const url = URL.createObjectURL(selectedFile);
+    setFile(selectedFile);
+    setPreviewUrl(url);
+  };
+
+
+
+  const coders = [
+  { id: 1, name: "Rox",      age: null, active: true },
+  { id: 2, name: "Jack",     age: null, active: true },
+  { id: 3, name: "Nicolas",  age: null, active: true },
+  { id: 4, name: "Juan",     age: null, active: true },
+  { id: 5, name: "Daniela",  age: null, active: true },
+  { id: 6, name: "Vansesa",  age: null, active: true },
+  { id: 7, name: "Estiven",  age: null, active: true },
+  { id: 8, name: "Karina",   age: null, active: true }
+]
+
+
+  const saludar = (name:string) => {
+    console.log(`Hola ${name}`);
+  };
+
+  coders.forEach(item => saludar(item.name) )
+
+
+
+
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-2">TaskLoad</h1>
+          <h1 className="text-4xl font-extrabold text-gray-900 mb-2">
+            TaskLoad
+          </h1>
           <h2 className="text-2xl font-bold text-gray-700">Iniciar Sesión</h2>
         </div>
-        
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email
               </label>
               <input
@@ -126,12 +174,17 @@ export default function Home() {
                 className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Ingrese su email"
               />
-              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+              )}
             </div>
 
             {/* Contraseña */}
             <div>
-              <label htmlFor="pass" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="pass"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Contraseña
               </label>
               <input
@@ -144,7 +197,29 @@ export default function Home() {
                 className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Ingrese su contraseña"
               />
-              {errors.pass && <p className="mt-1 text-sm text-red-600">{errors.pass}</p>}
+              {errors.pass && (
+                <p className="mt-1 text-sm text-red-600">{errors.pass}</p>
+              )}
+            </div>
+            <div>
+              <label
+                htmlFor="pass"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Contraseña
+              </label>
+              <input
+                id="image"
+                name="image"
+                type="file"
+                required
+                onChange={handleFileChange}
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Ingrese "
+              />
+              {errors.pass && (
+                <p className="mt-1 text-sm text-red-600">{errors.pass}</p>
+              )}
             </div>
           </div>
 
@@ -166,7 +241,7 @@ export default function Home() {
               disabled={isLoading}
               aria-label="Iniciar sesión en la aplicación"
             />
-            
+
             <div className="text-center">
               <Button
                 text="¿No tienes cuenta? Registrarse"
@@ -177,6 +252,21 @@ export default function Home() {
                 onClick={goToRegister}
                 aria-label="Ir a la página de registro"
               />
+              {previewUrl ? (
+                <div>
+                  <img
+                    src={previewUrl}
+                    alt="Preview"
+                    style={{
+                      width: "200px",
+                      height: "auto",
+                      marginTop: "10px",
+                    }}
+                  />
+                </div>
+              ) : (
+                <p>No file selected</p>
+              )}
             </div>
           </div>
         </form>
