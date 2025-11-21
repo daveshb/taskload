@@ -28,8 +28,10 @@ export const createProduct = async (
     // Crear FormData para enviar archivo
     const formData = new FormData();
     formData.append("nameProduct", productData.nameProduct);
-    formData.append("price", productData.price);
-    formData.append("file", productData.file);
+    formData.append("price", productData.price.toString());
+    if (productData.file) {
+      formData.append("file", productData.file);
+    }
 
     // Enviar con axios
     const response = await axios.post("/api/products", formData, {

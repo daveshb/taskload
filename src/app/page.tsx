@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { loginUser } from "@/services/auth";
 import { Button } from "@/components/button/Button";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 interface LoginFormData {
   email: string;
@@ -17,6 +19,7 @@ interface LoginErrors {
 
 export default function Home() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     pass: "",
@@ -29,14 +32,14 @@ export default function Home() {
 
     // Validar email
     if (!formData.email) {
-      newErrors.email = "El email es requerido";
+      newErrors.email = t('login.errors.emailRequired');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Email inválido";
+      newErrors.email = t('login.errors.emailInvalid');
     }
 
     // Validar contraseña
     if (!formData.pass) {
-      newErrors.pass = "La contraseña es requerida";
+      newErrors.pass = t('login.errors.passwordRequired');
     }
 
     setErrors(newErrors);
@@ -88,11 +91,11 @@ export default function Home() {
         };
         setErrors({
           submit:
-            axiosError.response?.data?.message || "Error al iniciar sesión",
+            axiosError.response?.data?.message || t('login.errors.loginError'),
         });
       } else {
         setErrors({
-          submit: "Error al iniciar sesión",
+          submit: t('login.errors.loginError'),
         });
       }
     } finally {
@@ -104,10 +107,10 @@ export default function Home() {
     router.push("/register");
   };
 
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState("");
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (!selectedFile) {
       setFile(null);
@@ -146,12 +149,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <LanguageSwitcher />
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold text-gray-900 mb-2">
             TaskLoad
           </h1>
-          <h2 className="text-2xl font-bold text-gray-700">Iniciar Sesión</h2>
+          <h2 className="text-2xl font-bold text-gray-700">{t('login.title')}</h2>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -162,7 +166,7 @@ export default function Home() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
-                Email
+                {t('login.email')}
               </label>
               <input
                 id="email"
@@ -172,7 +176,7 @@ export default function Home() {
                 value={formData.email}
                 onChange={handleInputChange}
                 className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Ingrese su email"
+                placeholder={t('login.emailPlaceholder')}
               />
               {errors.email && (
                 <p className="mt-1 text-sm text-red-600">{errors.email}</p>
@@ -185,7 +189,7 @@ export default function Home() {
                 htmlFor="pass"
                 className="block text-sm font-medium text-gray-700"
               >
-                Contraseña
+                {t('login.password')}
               </label>
               <input
                 id="pass"
@@ -195,7 +199,7 @@ export default function Home() {
                 value={formData.pass}
                 onChange={handleInputChange}
                 className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Ingrese su contraseña"
+                placeholder={t('login.passwordPlaceholder')}
               />
               {errors.pass && (
                 <p className="mt-1 text-sm text-red-600">{errors.pass}</p>
@@ -203,23 +207,18 @@ export default function Home() {
             </div>
             <div>
               <label
-                htmlFor="pass"
+                htmlFor="image"
                 className="block text-sm font-medium text-gray-700"
               >
-                Contraseña
+                {t('login.password')}
               </label>
               <input
                 id="image"
                 name="image"
                 type="file"
-                required
                 onChange={handleFileChange}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Ingrese "
+                className="mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm text-gray-900 bg-gray-50 cursor-pointer"
               />
-              {errors.pass && (
-                <p className="mt-1 text-sm text-red-600">{errors.pass}</p>
-              )}
             </div>
           </div>
 
@@ -233,7 +232,7 @@ export default function Home() {
           {/* Botones */}
           <div className="space-y-3">
             <Button
-              text={isLoading ? "Iniciando sesión..." : "Iniciar Sesión"}
+              text={isLoading ? t('login.signingIn') : t('login.submitButton')}
               type="submit"
               variant="primary"
               size="lg"
@@ -244,7 +243,7 @@ export default function Home() {
 
             <div className="text-center">
               <Button
-                text="¿No tienes cuenta? Registrarse"
+                text={t('login.registerLink')}
                 type="button"
                 variant="outline"
                 size="md"

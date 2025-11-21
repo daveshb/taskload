@@ -111,7 +111,7 @@ export default function CreateProductForm() {
 
       const response = await createProduct({
         nameProduct: formData.nameProduct,
-        price: formData.price,
+        price: parseFloat(formData.price),
         file
       });
 
