@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/button/Button';
+import { TaskList } from '@/components/task/TaskList';
 
 interface User {
   _id: string;
@@ -16,6 +17,7 @@ export default function Dashboard() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showTaskList, setShowTaskList] = useState(false);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -59,6 +61,30 @@ export default function Dashboard() {
 
   if (!user) {
     return null; // Se redirigirá automáticamente
+  }
+
+  if (showTaskList) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <header className="bg-white shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-6">
+              <h1 className="text-2xl font-bold text-gray-900">TaskLoad</h1>
+              <Button
+                text="Cerrar Sesión"
+                variant="danger"
+                size="md"
+                onClick={handleLogout}
+                aria-label="Cerrar sesión y volver al inicio"
+              />
+            </div>
+          </div>
+        </header>
+        <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <TaskList onClose={() => setShowTaskList(false)} />
+        </main>
+      </div>
+    );
   }
 
   return (
@@ -193,7 +219,7 @@ export default function Dashboard() {
                 variant="primary"
                 size="sm"
                 fullWidth={true}
-                onClick={() => console.log('Crear tarea')}
+                onClick={() => router.push('/tasks')}
                 aria-label="Crear una nueva tarea"
               />
             </div>
@@ -206,7 +232,7 @@ export default function Dashboard() {
                 variant="secondary"
                 size="sm"
                 fullWidth={true}
-                onClick={() => console.log('Ver tareas')}
+                onClick={() => setShowTaskList(true)}
                 aria-label="Ver todas las tareas"
               />
             </div>

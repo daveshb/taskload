@@ -15,5 +15,6 @@
       "passwordRequired": "La contraseña es requerida",
       "loginError": "Error al iniciar sesión"
     }
-  }
+  },
+   "accept": "Permitir"
 }

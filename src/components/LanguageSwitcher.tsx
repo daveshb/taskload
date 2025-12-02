@@ -6,6 +6,9 @@ import { languages } from '@/i18n';
 export function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage();
 
+
+  console.log(languages)
+
   return (
     <select
       value={language}

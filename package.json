@@ -17,8 +17,11 @@
     "cypress:test:open": "start-server-and-test dev 3000 cypress:open"
   },
   "dependencies": {
+    "@heroui/react": "^2.8.5",
+    "@nextui-org/react": "^2.6.11",
     "axios": "^1.13.2",
     "cloudinary": "^2.8.0",
+    "framer-motion": "^12.23.24",
     "i18n": "^0.15.3",
     "mongoose": "^8.19.3",
     "react": "19.2.0",

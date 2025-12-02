@@ -15,5 +15,6 @@
       "passwordRequired": "Password is required",
       "loginError": "Error signing in"
     }
-  }
+  },
+  "accept": "otra cosa"
 }

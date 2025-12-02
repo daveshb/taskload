@@ -143,10 +143,6 @@ export default function Home() {
   coders.forEach(item => saludar(item.name) )
 
 
-
-
-
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <LanguageSwitcher />
@@ -155,6 +151,7 @@ export default function Home() {
           <h1 className="text-4xl font-extrabold text-gray-900 mb-2">
             TaskLoad
           </h1>
+          <h2 className="text-black">{t('accept2')}</h2>
           <h2 className="text-2xl font-bold text-gray-700">{t('login.title')}</h2>
         </div>
 
