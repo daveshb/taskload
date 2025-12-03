@@ -5,6 +5,7 @@ import { loginUser } from "@/services/auth";
 import { Button } from "@/components/button/Button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import axios from "axios";
 
 interface LoginFormData {
   email: string;
@@ -142,7 +143,7 @@ export default function Home() {
 
   coders.forEach(item => saludar(item.name) )
 
-
+// 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <LanguageSwitcher />
