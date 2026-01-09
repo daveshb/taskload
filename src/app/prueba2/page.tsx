@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { getTasks } from "@/services/task";
@@ -15,7 +16,7 @@ const Prueba = () => {
       try {
         setLoding(true);
         const response = await getTasks();
-        setTask(response.data);
+        setTask(response.data ?? []);
       } catch (err) {
         console.error("internal server error");
         console.error(err);
