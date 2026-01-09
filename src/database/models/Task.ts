@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Schema, model, Model } from "mongoose";
+import { Schema, model, models, Model } from "mongoose";
 
 const taskSchema = new Schema({
     title: {
@@ -32,15 +32,8 @@ const taskSchema = new Schema({
     ],
 });
 
-// Utiliza un patrón singleton para garantizar que solo se compile una instancia del modelo
+// Reutiliza el modelo si ya existe para evitar OverwriteModelError
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let Task: Model<any>;
-try {
-    // Intenta compilar el modelo solo una vez
-    Task = model("tasks", taskSchema);
-} catch (error) {
-    // Si el modelo ya está compilado, úsalo
-    Task = model("tasks", taskSchema);
-}
+const Task: Model<any> = (models.tasks as Model<any>) || model("tasks", taskSchema);
 
 export default Task;

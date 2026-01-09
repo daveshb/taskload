@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Schema, model, Model } from "mongoose";
+import { Schema, model, models, Model } from "mongoose";
 
 const usersSchema = new Schema({
     cc: {
@@ -24,15 +24,8 @@ const usersSchema = new Schema({
     },
 });
 
-// Utiliza un patrón singleton para garantizar que solo se compile una instancia del modelo
+// Reutiliza el modelo si ya existe para evitar OverwriteModelError
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let Users: Model<any>;
-try {
-    // Intenta compilar el modelo solo una vez
-    Users = model("users", usersSchema);
-} catch (error) {
-    // Si el modelo ya está compilado, úsalo
-    Users = model("users", usersSchema);
-}
+const Users: Model<any> = (models.users as Model<any>) || model("users", usersSchema);
 
 export default Users;

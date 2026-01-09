@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
-    
+    console.log(user)
     // Verificar contraseña (en producción deberías usar hash)
     if (user.pass !== pass) {
       return NextResponse.json(

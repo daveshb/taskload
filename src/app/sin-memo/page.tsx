@@ -23,7 +23,6 @@ function ExpensiveCalculation({ count }: { count: number }) {
       </p>
       <p className="text-sm font-mono text-gray-600">
         Count: {count} | Resultado: {expensiveResult.toFixed(0)}
-        {/* Count: {count} | Resultado: {34444} */}
       </p>
     </div>
   );
@@ -34,12 +33,8 @@ function ExpensiveCalculation({ count }: { count: number }) {
 export default function SinMemoPage() {
   const [count, setCount] = useState(0);
 
-  const [dummy, setDummy] = useState(0);
-
-  
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-8">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-4xl font-bold mb-8 text-gray-800">
           Demostración: SIN useMemo
@@ -63,9 +58,6 @@ export default function SinMemoPage() {
           </div>
 
           <ExpensiveCalculation count={count} />
-
-          <div className="text-black">Dummy : {dummy}</div>
-          <button className="text-black" onClick={()=> setDummy(dummy+1)} >mas dummy</button>
 
           <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
             <p className="text-sm text-yellow-800">

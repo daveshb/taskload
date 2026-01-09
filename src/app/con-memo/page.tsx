@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 
 // Componente CON useMemo - cálculo costoso se memoriza
-function ExpensiveCalculationWithMemo({ count, dummy }: { count: number, dummy:number }) {
+function ExpensiveCalculationWithMemo({ count }: { count: number, dummy:number }) {
   // Usamos useMemo para memorizar el resultado
   const expensiveResult = useMemo(() => {
     console.log(' [CON MEMO] Calculando resultado costoso...');
@@ -13,7 +13,7 @@ function ExpensiveCalculationWithMemo({ count, dummy }: { count: number, dummy:n
     }
     console.log(' [CON MEMO] Cálculo completado:', result.toFixed(0));
     return result;
-  }, [count,dummy]); // Dependencia: solo recalcula si count cambia
+  }, [count]); // Dependencia: solo recalcula si count cambia
 
   return (
     <div className="p-4 bg-green-100 border-2 border-green-500 rounded-lg">
@@ -33,7 +33,7 @@ export default function ConMemoPage() {
   const [dummy, setDummy] = useState(0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-8">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-4xl font-bold mb-8 text-gray-800">
           Demostración: CON useMemo 

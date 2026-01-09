@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Schema, model, Model } from "mongoose";
+import { Schema, model, models, Model } from "mongoose";
 
 const productSchema = new Schema({
     nameProduct: {
@@ -13,15 +13,8 @@ const productSchema = new Schema({
     },
 });
 
-// Utiliza un patrón singleton para garantizar que solo se compile una instancia del modelo
+// Reutiliza el modelo si ya existe para evitar OverwriteModelError
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let Products: Model<any>;
-try {
-    // Intenta compilar el modelo solo una vez
-    Products = model("products", productSchema);
-} catch (error) {
-    // Si el modelo ya está compilado, úsalo
-    Products = model("products", productSchema);
-}
+const Products: Model<any> = (models.products as Model<any>) || model("products", productSchema);
 
 export default Products;
